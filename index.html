@@ -1,20 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap 4 Example</title>
+  <title>Unreal Control Panel</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"></script>
 </head>
 <body>
 
 <div class="container-fluid">
-  <h1>My First Bootstrap Page</h1>
-  <p>This is some text.</p>
+  <h1>Control Panel</h1>
+
 </div>
 
+<div class="container-fluid">
+  <input type="range" min="1" max="1000" value="500" class="slider" id="myRange">
+  <p>Value: <span id="demo">766</span></p>
+
+</div>
+
+
+<div class="row">
+  <div class="col"><div class="container-fluid">
+    <input type="text" value="75" class="dial">
+        <script type="text/javascript">
+            $(function() {
+                $(".dial").knob();
+            });
+        </script>
+
+  </div></div>
+  <div class="col"><div class="container-fluid">
+    <input type="text" value="75" class="dial">
+        <script type="text/javascript">
+            $(function() {
+                $(".dial").knob();
+            });
+        </script>
+
+  </div></div>
+  <div class="col"><div class="container-fluid">
+    <input type="text" value="75" class="dial">
+        <script type="text/javascript">
+            $(function() {
+                $(".dial").knob();
+            });
+        </script>
+
+  </div></div>
+</div>
+
+
+
 </body>
+
+<script type="text/javascript">
+
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+
+}
+</script>
 </html>
