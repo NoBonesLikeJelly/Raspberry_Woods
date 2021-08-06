@@ -15,19 +15,13 @@
 
 <div class="container-fluid">
   <h1>Control Panel</h1>
-
-</div>
-
-<div class="container-fluid">
-  <input type="range" min="1" max="1000" value="500" class="slider" id="myRange">
-  <p>Value: <span id="demo">766</span></p>
-
+  <p id="demo"></p>
 </div>
 
 
 <div class="row">
   <div class="col"><div class="container-fluid">
-    <input type="text" value="75" class="dial">
+    <input type="text" value="75" class="dial" data-min= "0"  data-max="100">
         <script type="text/javascript">
             $(function() {
                 $(".dial").knob();
@@ -35,8 +29,9 @@
         </script>
 
   </div></div>
+  
   <div class="col"><div class="container-fluid">
-    <input type="text" value="75" class="dial">
+    <input type="text" value="75" class="dial" data-min="0" data-max="100">
         <script type="text/javascript">
             $(function() {
                 $(".dial").knob();
@@ -44,8 +39,9 @@
         </script>
 
   </div></div>
+
   <div class="col"><div class="container-fluid">
-    <input type="text" value="75" class="dial">
+    <input type="text" value="75" class="dial" data-min="0" data-max="100" >
         <script type="text/javascript">
             $(function() {
                 $(".dial").knob();
@@ -59,15 +55,16 @@
 
 </body>
 
-<script type="text/javascript">
+<script>
 
-var slider = document.getElementById("myRange");
-var output = document.getElementById("demo");
-output.innerHTML = slider.value;
+let text = '{"values":[' +
+'{"minimum":"0","maximum":"255", "dialValue":"12" },' +
+'{"minimum":"0","maximum":"100", "dialValue":"25" },' +
+'{"minimum":"0","maximum":"500", "dialValue":"255" }]}';
 
-slider.oninput = function() {
-  output.innerHTML = this.value;
+const obj = JSON.parse(text);
+document.getElementById("demo").innerHTML =
+obj.values[2].minimum + " " + obj.values[2].maximum + " " + obj.values[2].dialValue;
 
-}
 </script>
 </html>
