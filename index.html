@@ -13,23 +13,82 @@
 </head>
 <body>
 
+  <script type="text/javascript">
+    var minimumnum = "minnum"
+    var maximumnum = "maxnum"
+    var valuenum = "valnum"
+  </script>
+
+  <script>
+
+  let text = '{"values":[' +
+  '{"minimum":"0","maximum":"255", "dialValue":"12" },' +
+  '{"minimum":"0","maximum":"100", "dialValue":"25" },' +
+  '{"minimum":"0","maximum":"255", "dialValue":"255" }]}';
+
+  const obj = JSON.parse(text);
+  // document.getElementById("demo").innerHTML =
+  // obj.values[2].minimum + " " + obj.values[2].maximum + " " + obj.values[2].dialValue;
+
+  document.getElementById("minnum").innerHTML = obj.values[2].minimum;
+  document.getElementById("maxnum").innerHTML = obj.values[2].maximum;
+  document.getElementById("valnum").innerHTML = obj.values[2].dialValue;
+
+  </script>
+
+
+
 <div class="container-fluid">
   <h1>Control Panel</h1>
-  <p id="demo"></p>
+
+</div>
+
+<div class="container">
+  <input type="text" class="dial">
+
+<script>
+    $(".dial").knob({
+        'change' : function (v) { console.log(v); }
+    });
+</script>
+
+<script>
+    $('.dial').trigger(
+        'configure',
+        {
+            "min":obj.values[2].minimum,
+            "max":obj.values[2].maximum,
+            "fgColor":"#FF0000",
+            "skin":"tron",
+            "cursor":true
+        }
+    );
+</script>
+
+<script>
+    $('.dial')
+        .val(obj.values[2].dialValue)
+        .trigger('change');
+</script>
 </div>
 
 
 <div class="row">
   <div class="col"><div class="container-fluid">
-    <input type="text" value="75" class="dial" data-min= "0"  data-max="100">
+    <input type="text" class="dial">
         <script type="text/javascript">
             $(function() {
                 $(".dial").knob();
+                'min'= "minnum",
+                'max'= "maxnum",
+                .val(35);
+                .trigger( 'change' );
             });
         </script>
 
-  </div></div>
-  
+      </div>
+    </div>
+
   <div class="col"><div class="container-fluid">
     <input type="text" value="75" class="dial" data-min="0" data-max="100">
         <script type="text/javascript">
@@ -65,6 +124,10 @@ let text = '{"values":[' +
 const obj = JSON.parse(text);
 document.getElementById("demo").innerHTML =
 obj.values[2].minimum + " " + obj.values[2].maximum + " " + obj.values[2].dialValue;
+
+document.getElementById("minnum").innerHTML = obj.values[2].minimum;
+document.getElementById("maxnum").innerHTML = obj.values[2].maximum;
+document.getElementById("valnum").innerHTML = obj.values[2].dialValue;
 
 </script>
 </html>
