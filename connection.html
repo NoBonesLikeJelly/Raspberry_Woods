@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+    <html>
+    <head></head>
+    <body>
+        <h3 id="status">Connection Closed</h3>
+        <input id="in"></input>
+        <button id="btn" onclick="sendMessage()">Fast</button>
+        <button id="btn" onclick="sendMessage3()">Slow</button>
+        <div class="slidecontainer">
+        <input type="range" min="1" max="10000" value="5000" class="slider" id="slider">
+        </div>
+        <div id="holder"></div>
+        
+        <script>
+            // Variable to hold the WebSocket connection if it's successful.
+            var connection = null;
+            var slider = document.getElementById("slider");
+            
+            slider.onInput = function(){
+                
+                sendMessage(this.value);
+                
+            }
+
+            /**
+             * This function sends a WebSocket message to subscribe to events emitted by a Remote Control Preset.
+             * The Remote Control Preset is specified by the user in the HTML input field.
+             */
+            function sendMessage2() {
+                if (connection) {
+                    let input = document.getElementById("in");
+                    const registerPayload = {
+                        "MessageName": "preset.register",
+                        "Parameters": {
+                            "PresetName": `${input.value}`
+                        }
+                    };
+                    connection.send(JSON.stringify(registerPayload));
+                }
+            }
+            
+            function sendMessage(value) {
+                
+                var speed = document.getElementById('in').value;
+                var float = parseFloat(speed);
+                console.log(value);
+                
+                const registerPayload = {
+    "MessageName": "http",
+    "Parameters": {
+        "Url": "/remote/object/call",
+        "Verb": "PUT",
+        "Body": {
+            "ObjectPath": "/Game/TESTING/Shaye_Test.Shaye_Test:PersistentLevel.ParticleController_C_1",
+            "functionName": "MakeFast",
+            "parameters" : {
+            "Speed": {"X" : float, "Y" : 0, "Z" : 0} 
+                },
+            "generateTransaction":true
+            }
+        }
+    };
+                connection.send(JSON.stringify(registerPayload));
+                
+            }
+            
+            function sendMessage3() {
+                
+                const registerPayload = {
+    "MessageName": "http",
+    "Parameters": {
+        "Url": "/remote/object/call",
+        "Verb": "PUT",
+        "Body": {
+            "ObjectPath": "/Game/TESTING/Shaye_Test.Shaye_Test:PersistentLevel.ParticleController_C_1",
+            "functionName": "MakeFast",
+            "parameters" : {
+            "Speed": {"X" : 0, "Y" : 0, "Z" : 0} 
+                },
+            "generateTransaction":true
+            }
+        }
+    };
+                connection.send(JSON.stringify(registerPayload));
+                
+            }
+
+            /**
+             * This function is called every time the page loads.
+             * It sets up a WebSocket connection and updates the page with "Connection Open" if the connection is successful.
+             * Any message it receives from the WebSocket server, it converts from JSON to HTML elements and renders them on the page.
+             * It also logs the full JSON message responses in the console.
+             */
+            window.onload = function() {
+                console.log("Starting test")
+                connection = new WebSocket('ws://127.0.0.1:30020');
+                connection.onopen = function () {
+                    document.getElementById("status").innerHTML = "Connection Open";
+                };
+                connection.onerror = function (error) {};
+                connection.onmessage = function (message) {
+                    if (message.data instanceof Blob) {
+                        reader = new FileReader();
+                        reader.onload = () => {
+                            let holder = document.getElementById("holder");
+                            let par = document.createElement("pre");
+                            par.style = style="white-space: pre-line";
+                            let json = JSON.parse(reader.result);
+                            let text = json.Type;
+                            par.innerHTML = text;
+                            holder.appendChild(par);
+                            console.log(reader.result)
+                        };
+                        reader.readAsText(message.data);
+                    } else {}
+                };
+                connection.onclose = function(event) {
+                  console.log("WebSocket is closed now.");
+                };
+            }
+        </script>
+    </body>
+    </html>

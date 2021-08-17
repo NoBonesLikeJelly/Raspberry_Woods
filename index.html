@@ -16,7 +16,7 @@
   <script>
 
     let text = '{ "values": [' +
-               '{ "minimum":0 ,"maximum": 255, "dialValue": 30 },' +
+               '{ "minimum":0 ,"maximum": 10000, "dialValue": 5000 },' +
                '{ "minimum":0 ,"maximum": 100, "dialValue": 25 },' +
                '{ "minimum":0 ,"maximum": 100, "dialValue": 80 },' +
                '{ "minimum":0 ,"maximum": 100, "dialValue": 2 },' +
@@ -30,8 +30,8 @@
 
 <div class="container-fluid" id="heading">
   <h1>Control Panel</h1>
+    <h2 id="subheading">Connection Closed</h2>
 </div>
-
 
 <!-- <div class="row">
 
@@ -140,7 +140,7 @@
 
     let dialboi =
       $(".dial" + numtick).knob({
-          'change' : function (v) { console.log(v); }
+          'change' : function (v) { console.log(v); sendMessage(v); }
         });
 
       $('.dial' + numtick).trigger(
@@ -156,9 +156,62 @@
 
       input.append(dialboi);
 
-      console.log(numtick);
+      //console.log(numtick);
       numtick += 1;
     }
+      //THIS IS WHERE THE WEBSOCKET CONNECTION IS SETUP!!!
+      window.onload = function() {
+                console.log("Starting test")
+                connection = new WebSocket('ws://127.0.0.1:30020');
+                connection.onopen = function () {
+                    document.getElementById("subheading").innerHTML = "Connection Open";
+                };
+                connection.onerror = function (error) {};
+                connection.onmessage = function (message) {
+                    if (message.data instanceof Blob) {
+                        reader = new FileReader();
+                        reader.onload = () => {
+                            let holder = document.getElementById("holder");
+                            let par = document.createElement("pre");
+                            par.style = style="white-space: pre-line";
+                            let json = JSON.parse(reader.result);
+                            let text = json.Type;
+                            par.innerHTML = text;
+                            holder.appendChild(par);
+                            console.log(reader.result)
+                        };
+                        reader.readAsText(message.data);
+                    } else {}
+                };
+                connection.onclose = function(event) {
+                  console.log("WebSocket is closed now.");
+                };
+            }
+      //THIS IS WHERE DATA IS SENT!
+      function sendMessage(value) {
+                
+               
+                console.log(value);
+                
+                const registerPayload = {
+    "MessageName": "http",
+    "Parameters": {
+        "Url": "/remote/object/call",
+        "Verb": "PUT",
+        "Body": {
+            "ObjectPath": "/Game/TESTING/Shaye_Test.Shaye_Test:PersistentLevel.ParticleController_C_1",
+            "functionName": "MakeFast",
+            "parameters" : {
+            "Speed": {"X" : value, "Y" : 0, "Z" : 0} 
+                },
+            "generateTransaction":true
+            }
+        }
+    };
+                connection.send(JSON.stringify(registerPayload));
+                
+            }
+            
   </script>
 
 
