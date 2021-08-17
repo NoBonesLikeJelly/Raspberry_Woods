@@ -32,7 +32,7 @@
   <h1>Control Panel</h1>
     <h2 id="subheading">Connection Closed</h2>
     <div class="slidecontainer">
-  <input type="range" min="1" max="10000" value="5000" class="slider" id="slider">
+    <input type="range" min="0" max="360" value="0" class="slider" id="slider">
 </div>
 </div>
 
@@ -168,8 +168,7 @@
      
       slider.oninput = function() {
           console.log(this.value + "WE DID IT");
-          
-          sendMessage(parseFloat(this.value));
+          changeLight(parseFloat(this.value));
 }
       
       
@@ -214,6 +213,27 @@
             "functionName": "MakeFast",
             "parameters" : {
             "Speed": {"X" : value, "Y" : 0, "Z" : 0} 
+                },
+            "generateTransaction":true
+            }
+        }
+    };
+                connection.send(JSON.stringify(registerPayload));
+                
+            }
+      
+       function changeLight(value) {
+                
+                const registerPayload = {
+                "MessageName": "http",
+                "Parameters": {
+        "Url": "/remote/object/call",
+        "Verb": "PUT",
+        "Body": {
+            "ObjectPath": "/Game/TESTING/Shaye_Test.Shaye_Test:PersistentLevel.DirectionalLight_2.LightComponent0",
+            "functionName": "SetActorRotation",
+            "parameters" : {
+            "NewRotation": {"X" : 0, "Y" : value, "Z" : 0} 
                 },
             "generateTransaction":true
             }
