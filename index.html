@@ -17,7 +17,7 @@
 
     let text = '{ "values": [' +
                '{ "minimum":0 ,"maximum": 10000, "dialValue": 5000 },' +
-               '{ "minimum":0 ,"maximum": 100, "dialValue": 25 },' +
+               '{ "minimum":0 ,"maximum": 10000, "dialValue": 5000 },' +
                '{ "minimum":0 ,"maximum": 100, "dialValue": 80 },' +
                '{ "minimum":0 ,"maximum": 100, "dialValue": 2 },' +
                '{ "minimum":0 ,"maximum": 255, "dialValue": 100 },' +
@@ -43,9 +43,8 @@
 
       <script>
           $(".dial1").knob({
-              'change' : function (v) { console.log(v + "OWparticlespeed"); }
-              'change' : function (v) { sendMessage(v); }
-
+              'change' : function (v) { console.log(v + "OWparticlespeed"); sendMessage(v); }
+            
           });
 
           $('.dial1').trigger(
@@ -221,6 +220,27 @@
     };
                 connection.send(JSON.stringify(registerPayload));
 
+            }
+      
+       function changeLight(value) {
+                
+                const registerPayload = {
+                "MessageName": "http",
+                "Parameters": {
+        "Url": "/remote/object/call",
+        "Verb": "PUT",
+        "Body": {
+            "ObjectPath": "/Game/TESTING/Shaye_Test.Shaye_Test:PersistentLevel.DirectionalLight_2.LightComponent0",
+            "functionName": "SetActorRotation",
+            "parameters" : {
+            "NewRotation": {"X" : 0, "Y" : value, "Z" : 0} 
+                },
+            "generateTransaction":true
+            }
+        }
+    };
+                connection.send(JSON.stringify(registerPayload));
+                
             }
 
   </script>
