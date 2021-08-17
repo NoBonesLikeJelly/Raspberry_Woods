@@ -36,14 +36,16 @@
 </div>
 </div>
 
-<!-- <div class="row">
+<div class="row">
 
   <div class="col"><div class="container-fluid">
-    <input type="text" class="dial1">
+    <input type="text" class="dial1" id="OWparticlespeed">
 
       <script>
           $(".dial1").knob({
-              'change' : function (v) { console.log(v); }
+              'change' : function (v) { console.log(v + "OWparticlespeed"); }
+              'change' : function (v) { sendMessage(v); }
+
           });
 
           $('.dial1').trigger(
@@ -63,11 +65,11 @@
     </div></div>
 
     <div class="col"><div class="container-fluid">
-      <input type="text" class="dial2">
+      <input type="text" class="dial2" id="OWtrainspeed">
 
         <script>
             $(".dial2").knob({
-                'change' : function (v) { console.log(v); }
+                'change' : function (v) { console.log(v + "OWtrainspeed"); }
             });
 
             $('.dial2').trigger(
@@ -111,13 +113,13 @@
         </div></div>
 
 
-</div> -->
+</div>
 
 
   <script>
-      
+
   var slider = document.getElementById("slider");
-      
+
   let numtick = 0;
   var node = document.createElement("div");
   node.id = 'bigdiv';
@@ -165,13 +167,12 @@
       //console.log(numtick);
       numtick += 1;
     }
-     
+
       slider.oninput = function() {
           console.log(this.value + "WE DID IT");
-          changeLight(parseFloat(this.value));
 }
-      
-      
+
+
       //THIS IS WHERE THE WEBSOCKET CONNECTION IS SETUP!!!
       window.onload = function() {
                 console.log("Starting test")
@@ -202,7 +203,7 @@
             }
       //THIS IS WHERE DATA IS SENT!
       function sendMessage(value) {
-                
+
                 const registerPayload = {
     "MessageName": "http",
     "Parameters": {
@@ -212,37 +213,16 @@
             "ObjectPath": "/Game/TESTING/Shaye_Test.Shaye_Test:PersistentLevel.ParticleController_C_1",
             "functionName": "MakeFast",
             "parameters" : {
-            "Speed": {"X" : value, "Y" : 0, "Z" : 0} 
+            "Speed": {"X" : value, "Y" : 0, "Z" : 0}
                 },
             "generateTransaction":true
             }
         }
     };
                 connection.send(JSON.stringify(registerPayload));
-                
+
             }
-      
-       function changeLight(value) {
-                
-                const registerPayload = {
-                "MessageName": "http",
-                "Parameters": {
-        "Url": "/remote/object/call",
-        "Verb": "PUT",
-        "Body": {
-            "ObjectPath": "/Game/TESTING/Shaye_Test.Shaye_Test:PersistentLevel.DirectionalLight_2.LightComponent0",
-            "functionName": "SetActorRotation",
-            "parameters" : {
-            "NewRotation": {"X" : 0, "Y" : value, "Z" : 0} 
-                },
-            "generateTransaction":true
-            }
-        }
-    };
-                connection.send(JSON.stringify(registerPayload));
-                
-            }
-            
+
   </script>
 
 
