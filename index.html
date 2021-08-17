@@ -36,14 +36,16 @@
 </div>
 </div>
 
-<!-- <div class="row">
+<div class="row">
 
   <div class="col"><div class="container-fluid">
-    <input type="text" class="dial1">
+    <input type="text" class="dial1" id="OWparticlespeed">
 
       <script>
           $(".dial1").knob({
-              'change' : function (v) { console.log(v); }
+              'change' : function (v) { console.log(v + "OWparticlespeed"); }
+              'change' : function (v) { sendMessage(v); }
+
           });
 
           $('.dial1').trigger(
@@ -63,11 +65,11 @@
     </div></div>
 
     <div class="col"><div class="container-fluid">
-      <input type="text" class="dial2">
+      <input type="text" class="dial2" id="OWtrainspeed">
 
         <script>
             $(".dial2").knob({
-                'change' : function (v) { console.log(v); }
+                'change' : function (v) { console.log(v + "OWtrainspeed"); }
             });
 
             $('.dial2').trigger(
@@ -111,7 +113,7 @@
         </div></div>
 
 
-</div> -->
+</div>
 
 
   <script>
