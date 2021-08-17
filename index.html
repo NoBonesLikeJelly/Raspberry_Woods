@@ -31,6 +31,9 @@
 <div class="container-fluid" id="heading">
   <h1>Control Panel</h1>
     <h2 id="subheading">Connection Closed</h2>
+    <div class="slidecontainer">
+  <input type="range" min="1" max="10000" value="5000" class="slider" id="slider">
+</div>
 </div>
 
 <!-- <div class="row">
@@ -112,6 +115,9 @@
 
 
   <script>
+      
+  var slider = document.getElementById("slider");
+      
   let numtick = 0;
   var node = document.createElement("div");
   node.id = 'bigdiv';
@@ -122,7 +128,7 @@
   yaboi.className = 'row';
   node.appendChild(yaboi);
 
-  for (let i = 0; i < (myJSON.values.length); i++) {
+    for (let i = 0; i < (myJSON.values.length); i++) {
 
     let div = document.createElement('div');
     div.id = 'content'+ numtick;
@@ -140,7 +146,7 @@
 
     let dialboi =
       $(".dial" + numtick).knob({
-          'change' : function (v) { console.log(v); sendMessage(v); }
+          'change' : function (v) { console.log(v + "_" + numtick); sendMessage(v); }
         });
 
       $('.dial' + numtick).trigger(
@@ -159,6 +165,14 @@
       //console.log(numtick);
       numtick += 1;
     }
+     
+      slider.oninput = function() {
+          console.log(this.value + "WE DID IT");
+          
+          sendMessage(parseFloat(this.value));
+}
+      
+      
       //THIS IS WHERE THE WEBSOCKET CONNECTION IS SETUP!!!
       window.onload = function() {
                 console.log("Starting test")
@@ -189,9 +203,6 @@
             }
       //THIS IS WHERE DATA IS SENT!
       function sendMessage(value) {
-                
-               
-                console.log(value);
                 
                 const registerPayload = {
     "MessageName": "http",
