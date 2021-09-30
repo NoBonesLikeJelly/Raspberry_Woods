@@ -1,32 +1,20 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
     <html>
     <head></head>
     <body>
         <h3 id="status">Connection Closed</h3>
         <input id="in"></input>
-        <button id="btn" onclick="sendMessage()">Fast</button>
-        <button id="btn" onclick="getStuff()">Slow</button>
-        <div class="slidecontainer">
-        <input type="range" min="-1" max="2" value="0.1" step="0.05" class="slider" id="slider" onchange="sendMessage(this.value)">
-        </div>
+        <button id="btn" onclick="sendMessage()">Register Preset</button>
         <div id="holder"></div>
-        
         <script>
             // Variable to hold the WebSocket connection if it's successful.
             var connection = null;
-            var slider = document.getElementById("slider");
-            
-            slider.onInput = function(){
-                
-                sendMessage(this.value);
-                
-            }
 
             /**
              * This function sends a WebSocket message to subscribe to events emitted by a Remote Control Preset.
              * The Remote Control Preset is specified by the user in the HTML input field.
              */
-            function sendMessage2() {
+            function sendMessage() {
                 if (connection) {
                     let input = document.getElementById("in");
                     const registerPayload = {
@@ -37,70 +25,6 @@
                     };
                     connection.send(JSON.stringify(registerPayload));
                 }
-            }
-            
-            function sendMessage(value) {
-                
-                var speed = document.getElementById('in').value;
-                var float = parseFloat(value);
-                console.log(float);
-                
-                const registerPayload = {
-    "MessageName": "http",
-    "Parameters": {
-        "Url": "/remote/object/call",
-        "Verb": "PUT",
-        "Body": {
-            "ObjectPath": "/Game/Train_Station/StartStationMapVR.StartStationMapVR:PersistentLevel.WebComms_C_1",
-            "functionName": "ReturnLevelInfo",
-            "parameters" : {
-            "FogSpeed": {"X" : 0, "Y" : float, "Z" : 0} 
-                },
-            "generateTransaction":true
-            }
-        }
-    };
-                connection.send(JSON.stringify(registerPayload));
-                
-            }
-            
-            function getStuff() {
-                
-                
-                
-                const registerPayload = {
-            "Presets": [
-                                {
-            "Name": "MyPreset",
-            "Path": "/Game/Presets/MyPreset.MyPreset"
-                            }
-                            ]
-                            }
-                
-               console.log(JSON.stringify(registerPayload));
-                connection.send(JSON.stringify(registerPayload));
-                
-            }
-            
-            function sendMessage3() {
-                
-                const registerPayload = {
-    "MessageName": "http",
-    "Parameters": {
-        "Url": "/remote/object/call",
-        "Verb": "PUT",
-        "Body": {
-            "ObjectPath": "/Game/TESTING/Shaye_Test.Shaye_Test:PersistentLevel.ParticleController_C_1",
-            "functionName": "MakeFast",
-            "parameters" : {
-            "Speed": {"X" : 0, "Y" : 0, "Z" : 0} 
-                },
-            "generateTransaction":true
-            }
-        }
-    };
-                connection.send(JSON.stringify(registerPayload));
-                
             }
 
             /**
