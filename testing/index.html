@@ -1,28 +1,3 @@
-<!-- function sendMessage(value) {
-
-                var speed = document.getElementById('slider1').value;
-                var float = parseFloat(value);
-                console.log(float);
-                
-                const registerPayload = {
-                    "MessageName": "http",
-                    "Parameters": {
-                        "Url": "/remote/object/call",
-                        "Verb": "PUT",
-                        "Body": {
-                            "ObjectPath": "/Game/Train_Station/StartStationMapVR.StartStationMapVR:PersistentLevel.WebComms_C_1",
-                            "functionName": "ReturnLevelInfo",
-                            "parameters" : {
-                            "FogSpeed": {"X" : 0, "Y" : 0, "Z" : 0} 
-                                },
-                            "generateTransaction":true
-                            }
-                        }
-                };
-                connection.send(JSON.stringify(registerPayload));
-
-    } */ -->
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,64 +5,16 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <h3 id="status">Connection Closed</h3>
-        <input id="in"></input>
-        <button id="btn" onclick="sendMessage()">Register Preset</button>
-        <div id="holder"></div>
         
-        
-        <h1 class="h1">Testing Interface</h1>
+        <h1 class="h1">Connecting to Train</h1>
+        <div class="loader"></div>
+        <h3 class="h3" id="status"></h3>
 
-        <button class="button" onclick="getPresets()">Click Me!</button>
 
-        <div class="slidecontainer">
-            <input type="range" min="1" max="100" value="50" class="slider" id="slider1" onchange="sendMessage(this.value)">
-        </div>
-   <script>
-            // Variable to hold the WebSocket connection if it's successful.
-            var connection = null;
+        <script>
 
-            /**
-             * This function sends a WebSocket message to subscribe to events emitted by a Remote Control Preset.
-             * The Remote Control Preset is specified by the user in the HTML input field.
-             */
-            function sendMessage() {
-                if (connection) {
-                    let input = document.getElementById("in");
-                    const registerPayload = {
-                        "MessageName": "preset.register",
-                        "Parameters": {
-                            "PresetName": `${input.value}`
-                        }
-                    };
-                    connection.send(JSON.stringify(registerPayload));
-                }
-            }
-       
-            function getPresets() {
-                if (connection) {
-                    
-    
-                           const registerPayload = {
-                        "MessageName": "preset.register",
-                        "Parameters": {
-                            "PresetName": `test`
-                        }
-                    
-                    };
-                    connection.send(null);
-                }
-            }
-            
-            
-
-            /**
-             * This function is called every time the page loads.
-             * It sets up a WebSocket connection and updates the page with "Connection Open" if the connection is successful.
-             * Any message it receives from the WebSocket server, it converts from JSON to HTML elements and renders them on the page.
-             * It also logs the full JSON message responses in the console.
-             */
-            window.onload = function() {
+            window.onload = function connect() {
+               // window.setInterval(updateWorld, 1000);
                 console.log("Starting test")
                 connection = new WebSocket('ws://127.0.0.1:30020');
                 connection.onopen = function () {
@@ -105,15 +32,34 @@
                             let text = json.Type;
                             par.innerHTML = text;
                             holder.appendChild(par);
-                            console.log(reader.result)
+                            
+                            const messagedata = JSON.parse(reader.result);
+                            console.log(messagedata);
+                            
+                            if(messagedata.ResponseBody.PropertyValues != null){
+                                
+                                levelName(messagedata);
+                                
+                            }else{
+                                
+                                console.log("Not World Information Lol")
+                                
+                            }
+                            
+                            
                         };
                         reader.readAsText(message.data);
                     } else {}
                 };
                 connection.onclose = function(event) {
-                  console.log("WebSocket is closed now.");
+                    
+                  console.log("Can't Connect, Retying in 1 second...");
+                  setTimeout(function() {connect(); }, 1000);
                 };
             }
+
+
         </script>
+   
     </body>
     </html>
