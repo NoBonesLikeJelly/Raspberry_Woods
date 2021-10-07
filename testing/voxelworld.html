@@ -3,7 +3,7 @@
     <head></head>
     <body>
         <h3 id="status">Connection Closed</h3>
-        <h3 id="name">Current Level Is: Old West World</h3>
+        <h3 id="name">Current Level Is: Voxel World</h3>
         <input id="in"></input>
         <button id="btn" onclick="sendMessage()">Register Preset</button>
         <button id="btn2" onclick="getPresets()">Get Value</button>
@@ -65,7 +65,7 @@
                 
                 
                 
-                self.location = "Y:/GIT/Raspberry_Woods/testing/OldWestWorld.html";
+                self.location = "http://www.google.co.nz";
                 
             }
             
@@ -76,23 +76,10 @@
                 levelnum = levelnum.ResponseBody.PropertyValues[0].PropertyValue
                 const levels = ["null", "OldWestWorld", "VoxelWorld"]
                 
-                if(levelnum == 2){
-                    
-                    self.location = "Y:/GIT/Raspberry_Woods/testing/voxelworld.html";
-                    
-                }
-                
-                
                 
             }
             
-
-            /**
-             * This function is called every time the page loads.
-             * It sets up a WebSocket connection and updates the page with "Connection Open" if the connection is successful.
-             * Any message it receives from the WebSocket server, it converts from JSON to HTML elements and renders them on the page.
-             * It also logs the full JSON message responses in the console.
-             */
+          
             window.onload = function() {
                 window.setInterval(updateWorld, 1000);
                 console.log("Starting test")
