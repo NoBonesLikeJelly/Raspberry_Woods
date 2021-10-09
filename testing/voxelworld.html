@@ -1,127 +1,38 @@
- <!DOCTYPE html>
-    <html>
-    <head></head>
-    <body>
-        <h3 id="status">Connection Closed</h3>
-        <h3 id="name">Current Level Is: Voxel World</h3>
-        <input id="in"></input>
-        <button id="btn" onclick="sendMessage()">Register Preset</button>
-        <button id="btn2" onclick="getPresets()">Get Value</button>
-        <button id="btn3" onclick="newPage()">Get Me Out!</button>
-        <div id="holder"></div>
-        <script>
-            // Variable to hold the WebSocket connection if it's successful.
-            var connection = null;
-            let interval;
+<!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" href="style.css">
+<script type = "text/javascript" src="functions.js"></script>
+</head>
+<body>
+    <h1 id="name">Current Level Is: Voxel World</h1>
+    <h2 id="status">Connection Closed</h2>
+    <div class="row">
+        <div class="column">
+            <h3>Train Speed</h3>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="50" class="slider" id="slider1">
+            </div>
+            <h3>Bloom</h3>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="1" class="slider" id="slider2">
+            </div>
+            <h3>Light Intensity</h3>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="1" class="slider" id="slider3">
+            </div>
+            <h3>Time of Day</h3>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="50" class="slider" id="slider4">
+            </div>
+        </div>
+        <div class="column">
 
-            /**
-             * This function sends a WebSocket message to subscribe to events emitted by a Remote Control Preset.
-             * The Remote Control Preset is specified by the user in the HTML input field.
-             */
-            function sendMessage() {
-                if (connection) {
-                    let input = document.getElementById("in");
-                    const registerPayload = {
-                       "MessageName": "preset.register",
-                        "Parameters": {
-                            "PresetName": `${input.value}`
-                        }
-                    };
-                    connection.send(JSON.stringify(registerPayload));
-                }
-            }
-            
-            function updateWorld() {
-                if (connection) {
-                    let input = document.getElementById("in");
-                    const registerPayload = {
-                       "MessageName": "http",
-                        "Parameters": {
-                        "Url": "/remote/preset/ThomasPreset/property/Current World",
-                        "Verb": "GET",
-                        "Body": { }
-                        }
-                    };
-                    connection.send(JSON.stringify(registerPayload));
-                }
-            }
-            
-            function getPresets() {
-                if (connection) {
-                    let input = document.getElementById("in");
-                    const registerPayload = {
-                       "MessageName": "http",
-                        "Parameters": {
-                        "Url": "/remote/presets/",
-                        "Verb": "GET",
-                        "Body": { }
-                        }
-                    };
-                    connection.send(JSON.stringify(registerPayload));
-                }
-            }
-            
-            function newPage() {
-                
-                
-                
-                self.location = "http://www.google.co.nz";
-                
-            }
-            
-            
-            
-            function levelName(levelnum){
-                
-                levelnum = levelnum.ResponseBody.PropertyValues[0].PropertyValue
-                const levels = ["null", "OldWestWorld", "VoxelWorld"]
-                
-                
-            }
-            
-          
-            window.onload = function() {
-                window.setInterval(updateWorld, 1000);
-                console.log("Starting test")
-                connection = new WebSocket('ws://127.0.0.1:30020');
-                connection.onopen = function () {
-                    document.getElementById("status").innerHTML = "Connection Open";
-                };
-                connection.onerror = function (error) {};
-                connection.onmessage = function (message) {
-                    if (message.data instanceof Blob) {
-                        reader = new FileReader();
-                        reader.onload = () => {
-                            let holder = document.getElementById("holder");
-                            let par = document.createElement("pre");
-                            par.style = style="white-space: pre-line";
-                            let json = JSON.parse(reader.result);
-                            let text = json.Type;
-                            par.innerHTML = text;
-                            holder.appendChild(par);
-                            
-                            const messagedata = JSON.parse(reader.result);
-                            console.log(messagedata);
-                            
-                            if(messagedata.ResponseBody.PropertyValues != null){
-                                
-                                levelName(messagedata);
-                                
-                            }else{
-                                
-                                console.log("Not World Information Lol")
-                                
-                            }
-                            
-                            
-                        };
-                        reader.readAsText(message.data);
-                    } else {}
-                };
-                connection.onclose = function(event) {
-                  console.log("WebSocket is closed now.");
-                };
-            }
-        </script>
-    </body>
-    </html>
+            <img src="voxelworld.jpg">
+
+        </div>
+
+    </div>
+   
+    
+</body>
+</html>
