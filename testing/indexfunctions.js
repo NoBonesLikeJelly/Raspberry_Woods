@@ -14,13 +14,12 @@ function level(levelnum){
     levelnum = levelnum.ResponseBody.PropertyValues[0].PropertyValue
     const levels = ["null", "OldWestWorld", "VoxelWorld"]
     
-    if(levelnum == 2 && thisLevelIs != "VoxelWorld"){
-        
+    if(levelnum == 2){
         
         window.location = "voxelworld.html";
     
     
-    }else if(levelnum == 1 && thisLevelIs != "OldWest"){
+    }else if(levelnum == 1){
         
         window.location = "oldwestworld.html";
         
@@ -57,41 +56,15 @@ function getWorld(){
             "Body": { }
             }
         };
-        //console.log("Sending: " + JSON.stringify(registerPayload));
-        connection.send(JSON.stringify(registerPayload));
-    }
-    
-    
-}
-
-function updateSpeed(speed, name){
-    
-    var float = parseFloat(speed);
-    var string = name;
-    console.log(name);
-    
-     if (connection) {
-        const registerPayload = {
-           "MessageName": "http",
-            "Parameters": {
-            //"Url": "/remote/object/property",
-            "Url": "/remote/preset/ThomasPreset/property/"+name,
-            //"Url": "/remote/presets",
-            "Verb": "PUT",
-            "Body": {
-                    "PropertyValue" : float,
-                    "GenerateTransaction" : true
-                    }
-        }
-        };
         console.log("Sending: " + JSON.stringify(registerPayload));
         connection.send(JSON.stringify(registerPayload));
     }
     
+    
 }
 
 window.onload = function connect() {
-    console.log("Reconnecting...")
+    console.log("Trying Connection...")
     connection = new WebSocket('ws://127.0.0.1:30020');
     connection.onopen = function () {
         document.getElementById("status").innerHTML = "Connection Open";
@@ -104,18 +77,15 @@ window.onload = function connect() {
             reader.onload = () => {
                 let json = JSON.parse(reader.result);
                 const messagedata = JSON.parse(reader.result);
-                console.log(reader.result);
-                
-                if(messagedata.ResponseBody != null){
-                    if(messagedata.ResponseBody.PropertyValues != null){
-
-                        level(messagedata);
-
-                    }else{
-
-                        console.log("Not World Information Lol")
-
-                    }
+                console.log(messagedata);
+                if(messagedata.ResponseBody.PropertyValues != null){
+                    
+                    level(messagedata);
+                    
+                }else{
+                    
+                    console.log("Not World Information Lol")
+                    
                 }
                 
                 
@@ -127,13 +97,11 @@ window.onload = function connect() {
 
         if(event.code == 1006){
 
-            console.log("Server Broke... Redirecting");
-            window.location = "index.html";
-            
+            console.log("No Response, Retying in 1 second...");
+            setTimeout(function() {connect(); }, 1000);
         }else if(event.code == 1000 || 1001){
 
             console.log("Server Shutdown!");
-            window.location = "index.html";
             
 
         }
