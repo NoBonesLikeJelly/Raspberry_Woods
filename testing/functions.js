@@ -92,7 +92,7 @@ function updateSpeed(speed, name){
 
 window.onload = function connect() {
     console.log("Reconnecting...")
-    connection = new WebSocket('ws://127.0.0.1:30020');
+    connection = new WebSocket('ws://130.123.196.83:30020');
     connection.onopen = function () {
         document.getElementById("status").innerHTML = "Connection Open";
         window.setInterval(getWorld, 1000);
