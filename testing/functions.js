@@ -93,6 +93,7 @@ function updateSpeed(speed, name){
 window.onload = function connect() {
     console.log("Reconnecting...")
     connection = new WebSocket('ws://130.123.196.83:30020');
+    connectionTwo = new WebSocket('ws://130.123.196.83:30050');
     connection.onopen = function () {
         document.getElementById("status").innerHTML = "Connection Open";
         window.setInterval(getWorld, 1000);
@@ -128,12 +129,12 @@ window.onload = function connect() {
         if(event.code == 1006){
 
             console.log("Server Broke... Redirecting");
-            window.location = "index.html";
+            //window.location = "index.html";
             
         }else if(event.code == 1000 || 1001){
 
             console.log("Server Shutdown!");
-            window.location = "index.html";
+            //window.location = "index.html";
             
 
         }
