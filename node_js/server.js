@@ -9,11 +9,7 @@ const port = 3000;
 
 const server = http.createServer(function(req, res){
 
-    if(req.METHOD == 'GET'){
-
-        console.log('Wow that worked?!?');
-
-    }
+    let path = url.parse(req.url, true);
     
 });
 

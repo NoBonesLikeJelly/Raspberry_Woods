@@ -12,7 +12,7 @@ function test(){
 function level(levelnum){
                              
     levelnum = levelnum.ResponseBody.PropertyValues[0].PropertyValue
-    const levels = ["null", "OldWestWorld", "VoxelWorld"]
+    const levels = ["null", "OldWestWorld", "VoxelWorld", "UnderwaterWorld", "FloatingWorld", "Swamplands"]
     
     if(levelnum == 2 && thisLevelIs != "VoxelWorld"){
         
@@ -24,6 +24,18 @@ function level(levelnum){
         
         window.location = "oldwestworld.html";
         
+        
+    }else if(levelnum == 3 && thisLevelIs != "UnderwaterWorld"){
+
+        window.location = "underwaterWorld.html";
+        
+    }else if(levelnum == 4 && thisLevelIs != "FloatingWorld"){
+
+        window.location = "floatingWorld.html";
+        
+    }else if(levelnum == 5 && thisLevelIs != "Swamplands"){
+
+        window.location = "swamplands.html";
         
     }
 }

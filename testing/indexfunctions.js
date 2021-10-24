@@ -1,4 +1,5 @@
 var connection = null;
+var connectionTwo = null;
 
 
 function test(){
@@ -66,11 +67,12 @@ function getWorld(){
 window.onload = function connect() {
     console.log("Trying Connection...")
     connection = new WebSocket('ws://130.123.196.83:30020');
-    connectionTwo = new WebSocket('ws://130.123.196.83:30050');
+    connectionTwo = new WebSocket('ws://130.123.196.83:30050')
     connection.onopen = function () {
         document.getElementById("status").innerHTML = "Connection Open";
         window.setInterval(getWorld, 1000);
     };
+    connectionTwo.onopen = function () { console.log("Slave Online Leshgoooo")}
     connection.onerror = function (error) {};
     connectionTwo.onerror = function (error) {};
     connection.onmessage = function (message) {
@@ -113,10 +115,7 @@ window.onload = function connect() {
 
         if(event.code == 1006){
 
-            console.log("SLAVE OFFLINE");
-            console.log("SLAVE OFFLINE");
-            console.log("SLAVE OFFLINE");
-
+            console.log("Slave Offline")
         }else if(event.code == 1000 || 1001){
 
             console.log("Server Shutdown!");

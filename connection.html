@@ -26,18 +26,6 @@
              * This function sends a WebSocket message to subscribe to events emitted by a Remote Control Preset.
              * The Remote Control Preset is specified by the user in the HTML input field.
              */
-            function sendMessage2() {
-                if (connection) {
-                    let input = document.getElementById("in");
-                    const registerPayload = {
-                        "MessageName": "preset.register",
-                        "Parameters": {
-                            "PresetName": `${input.value}`
-                        }
-                    };
-                    connection.send(JSON.stringify(registerPayload));
-                }
-            }
             
             function sendMessage(value) {
                 
@@ -46,62 +34,24 @@
                 console.log(float);
                 
                 const registerPayload = {
-    "MessageName": "http",
-    "Parameters": {
-        "Url": "/remote/object/call",
-        "Verb": "PUT",
-        "Body": {
-            "ObjectPath": "/Game/Train_Station/StartStationMapVR.StartStationMapVR:PersistentLevel.WebComms_C_1",
-            "functionName": "ReturnLevelInfo",
-            "parameters" : {
-            "FogSpeed": {"X" : 0, "Y" : float, "Z" : 0} 
-                },
-            "generateTransaction":true
-            }
-        }
-    };
+                    "MessageName": "http",
+                    "Parameters": {
+                        "Url": "/remote/object/call",
+                        "Verb": "PUT",
+                        "Body": {
+                            "ObjectPath": "/Game/Train_Station/StartStationMapVR.StartStationMapVR:PersistentLevel.WebComms_C_1",
+                            "functionName": "ReturnLevelInfo",
+                            "parameters" : {
+                            "FogSpeed": {"X" : 0, "Y" : float, "Z" : 0} 
+                                },
+                            "generateTransaction":true
+                            }
+                        }
+                };
                 connection.send(JSON.stringify(registerPayload));
                 
             }
             
-            function getStuff() {
-                
-                
-                
-                const registerPayload = {
-            "Presets": [
-                                {
-            "Name": "MyPreset",
-            "Path": "/Game/Presets/MyPreset.MyPreset"
-                            }
-                            ]
-                            }
-                
-               console.log(JSON.stringify(registerPayload));
-                connection.send(JSON.stringify(registerPayload));
-                
-            }
-            
-            function sendMessage3() {
-                
-                const registerPayload = {
-    "MessageName": "http",
-    "Parameters": {
-        "Url": "/remote/object/call",
-        "Verb": "PUT",
-        "Body": {
-            "ObjectPath": "/Game/TESTING/Shaye_Test.Shaye_Test:PersistentLevel.ParticleController_C_1",
-            "functionName": "MakeFast",
-            "parameters" : {
-            "Speed": {"X" : 0, "Y" : 0, "Z" : 0} 
-                },
-            "generateTransaction":true
-            }
-        }
-    };
-                connection.send(JSON.stringify(registerPayload));
-                
-            }
 
             /**
              * This function is called every time the page loads.
