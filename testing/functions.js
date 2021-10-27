@@ -90,7 +90,8 @@ function updateSpeed(speed, name){
             "Url": "/remote/preset/ThomasPreset/property/"+name,
             //"Url": "/remote/presets",
             "Verb": "PUT",
-            "Body": {
+            "Body": 
+                    {
                     "PropertyValue" : float,
                     "GenerateTransaction" : true
                     }
@@ -101,6 +102,40 @@ function updateSpeed(speed, name){
     }
     
 }
+    
+    function lightRotation(value, name){
+    
+    
+    var string = name;
+    var float = parseFloat(value);
+    
+    if (connection) {
+        const registerPayload = {
+           "MessageName": "http",
+            "Parameters": {
+            //"Url": "/remote/object/property",
+            "Url": "/remote/preset/ThomasPreset/property/"+string+"_LightRotator",
+            //"Url": "/remote/presets",
+            "Verb": "PUT",
+            "Body": 
+                    {
+                    "PropertyValue" : {"Pitch": float,
+                                        "Yaw": 0,
+                                        "Roll": 0},
+                    "GenerateTransaction" : true
+                    }
+        }
+        };
+        console.log("Sending: " + JSON.stringify(registerPayload));
+        connection.send(JSON.stringify(registerPayload));
+    }
+    }
+    
+    
+    
+    
+    
+
 
 window.onload = function connect() {
     console.log("Reconnecting...")
@@ -141,12 +176,12 @@ window.onload = function connect() {
         if(event.code == 1006){
 
             console.log("Server Broke... Redirecting");
-            //window.location = "index.html";
+            window.location = "index.html";
             
         }else if(event.code == 1000 || 1001){
 
             console.log("Server Shutdown!");
-            //window.location = "index.html";
+            window.location = "index.html";
             
 
         }
