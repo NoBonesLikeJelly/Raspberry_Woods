@@ -40,6 +40,8 @@ function level(levelnum){
     }else if(levelnum == 6 && thisLevelIs != "Cosmo"){
 
         window.location = "cosmonautica.html";
+
+    }
         
 }
 
