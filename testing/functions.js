@@ -12,7 +12,7 @@ function test(){
 function level(levelnum){
                              
     levelnum = levelnum.ResponseBody.PropertyValues[0].PropertyValue
-    const levels = ["null", "OldWestWorld", "VoxelWorld", "UnderwaterWorld", "FloatingWorld", "Swamplands"]
+    const levels = ["null", "OldWestWorld", "VoxelWorld", "UnderwaterWorld", "FloatingWorld", "Swamplands", "Cosmo"]
     
     if(levelnum == 2 && thisLevelIs != "VoxelWorld"){
         
@@ -37,7 +37,10 @@ function level(levelnum){
 
         window.location = "swamplands.html";
         
-    }
+    }else if(levelnum == 6 && thisLevelIs != "Cosmo"){
+
+        window.location = "cosmonautica.html";
+        
 }
 
 
@@ -103,7 +106,7 @@ function updateSpeed(speed, name){
     
 }
     
-    function lightRotation(value, name){
+function lightRotation(value, name){
     
     
     var string = name;
