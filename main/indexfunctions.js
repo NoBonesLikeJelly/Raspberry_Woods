@@ -1,5 +1,4 @@
 var connection = null;
-var connectionTwo = null;
 
 
 function test(){
@@ -66,15 +65,13 @@ function getWorld(){
 
 window.onload = function connect() {
     console.log("Trying Connection...")
-    connection = new WebSocket('ws://130.123.196.83:30020');
-    connectionTwo = new WebSocket('ws://130.123.196.83:30050')
+    connection = new WebSocket('ws://130.123.196.122:30020');
+   // connectionTwo = new WebSocket('ws://130.123.196.83:30050')
     connection.onopen = function () {
         document.getElementById("status").innerHTML = "Connection Open";
         window.setInterval(getWorld, 1000);
     };
-    connectionTwo.onopen = function () { console.log("Slave Online Leshgoooo")}
     connection.onerror = function (error) {};
-    connectionTwo.onerror = function (error) {};
     connection.onmessage = function (message) {
         if (message.data instanceof Blob) {
             reader = new FileReader();
@@ -103,19 +100,6 @@ window.onload = function connect() {
 
             console.log("No Response, Retying in 1 second...");
             setTimeout(function() {connect(); }, 1000);
-        }else if(event.code == 1000 || 1001){
-
-            console.log("Server Shutdown!");
-            
-
-        }
-      
-    };
-    connectionTwo.onclose = function(event) {
-
-        if(event.code == 1006){
-
-            console.log("Slave Offline")
         }else if(event.code == 1000 || 1001){
 
             console.log("Server Shutdown!");
